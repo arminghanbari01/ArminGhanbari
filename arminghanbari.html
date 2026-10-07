@@ -1,0 +1,4694 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>ArminGhanbari — Digital Identity</title>
+
+<meta name="description"
+      content="ArminGhanbari | Computer Engineering | AI | Technology">
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --black:#030303;
+    --black2:#070707;
+    --black3:#0c0c0c;
+
+    --white:#f7f7f5;
+    --gray:#929292;
+    --gray2:#5c5c5c;
+
+    --gold:#d8b56a;
+    --gold2:#f1d897;
+
+    --line:rgba(255,255,255,.09);
+    --glass:rgba(255,255,255,.045);
+
+    --ease:cubic-bezier(.16,1,.3,1);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:
+    "Segoe UI",
+    Tahoma,
+    Arial,
+    sans-serif;
+
+    background:var(--black);
+
+    color:var(--white);
+
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font-family:inherit;
+}
+
+::selection{
+    background:var(--gold);
+    color:#000;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#030303;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#282828;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:var(--gold);
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    background:#030303;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    transition:
+    opacity .8s var(--ease),
+    visibility .8s var(--ease);
+}
+
+.loader.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+}
+
+.loader-logo{
+
+    font-size:42px;
+
+    font-weight:900;
+
+    letter-spacing:-3px;
+
+    direction:ltr;
+}
+
+.loader-logo span{
+    color:var(--gold);
+}
+
+.loader-line{
+
+    width:150px;
+
+    height:2px;
+
+    background:#1a1a1a;
+
+    margin-top:25px;
+
+    overflow:hidden;
+}
+
+.loader-line::after{
+
+    content:"";
+
+    display:block;
+
+    width:50%;
+
+    height:100%;
+
+    background:var(--gold);
+
+    animation:
+    loader 1.2s infinite ease-in-out;
+}
+
+@keyframes loader{
+
+    0%{
+        transform:translateX(-150px);
+    }
+
+    100%{
+        transform:translateX(300px);
+    }
+}
+
+
+/* =========================================================
+   CURSOR GLOW
+========================================================= */
+
+.cursor-glow{
+
+    position:fixed;
+
+    width:450px;
+    height:450px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(216,181,106,.075),
+        transparent 68%
+    );
+
+    pointer-events:none;
+
+    transform:
+    translate(-50%,-50%);
+
+    z-index:1;
+
+    mix-blend-mode:screen;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.noise{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:0;
+
+    opacity:.035;
+
+    background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+.grid-bg{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-2;
+
+    pointer-events:none;
+
+    background-image:
+    linear-gradient(
+        rgba(255,255,255,.025) 1px,
+        transparent 1px
+    ),
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.025) 1px,
+        transparent 1px
+    );
+
+    background-size:
+    70px 70px;
+
+    mask-image:
+    linear-gradient(
+        to bottom,
+        black,
+        transparent 75%
+    );
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+#particles{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav{
+
+    position:fixed;
+
+    top:18px;
+
+    left:3%;
+
+    right:3%;
+
+    height:72px;
+
+    z-index:5000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 24px;
+
+    border:1px solid var(--line);
+
+    border-radius:100px;
+
+    background:
+    rgba(5,5,5,.58);
+
+    backdrop-filter:
+    blur(22px);
+
+    box-shadow:
+    0 20px 70px rgba(0,0,0,.35);
+
+    transition:.4s var(--ease);
+}
+
+.nav.scrolled{
+
+    top:10px;
+
+    height:64px;
+
+    background:
+    rgba(5,5,5,.86);
+
+    border-color:
+    rgba(216,181,106,.16);
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    direction:ltr;
+}
+
+.brand-mark{
+
+    width:35px;
+    height:35px;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--gold2),
+        #98702d
+    );
+
+    color:#080808;
+
+    font-size:13px;
+
+    font-weight:1000;
+
+    box-shadow:
+    0 0 25px rgba(216,181,106,.12);
+}
+
+.brand-name{
+
+    font-size:18px;
+
+    font-weight:900;
+
+    letter-spacing:-1px;
+}
+
+.brand-name span{
+    color:var(--gold);
+}
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+
+    list-style:none;
+}
+
+.nav-links a{
+
+    position:relative;
+
+    color:#929292;
+
+    font-size:12px;
+
+    transition:.3s;
+}
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:1px;
+
+    background:var(--gold);
+
+    transition:.35s;
+}
+
+.nav-links a:hover{
+
+    color:#fff;
+}
+
+.nav-links a:hover::after{
+
+    width:100%;
+}
+
+.nav-cta{
+
+    padding:11px 21px;
+
+    border-radius:100px;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--gold2),
+        #ae8037
+    );
+
+    color:#080808;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    transition:.3s;
+}
+
+.nav-cta:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 10px 30px rgba(216,181,106,.2);
+}
+
+.mobile-menu{
+
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:1px solid var(--line);
+
+    border-radius:50%;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    min-height:100vh;
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    isolation:isolate;
+}
+
+.hero-image{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:-3;
+
+    background-image:
+    linear-gradient(
+        90deg,
+        rgba(3,3,3,.05) 0%,
+        rgba(3,3,3,.18) 38%,
+        rgba(3,3,3,.9) 80%,
+        #030303 100%
+    ),
+    url("hero.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    filter:saturate(.85);
+
+    transform:
+    scale(1.03);
+}
+
+.hero-light{
+
+    position:absolute;
+
+    width:700px;
+
+    height:700px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(216,181,106,.1),
+        transparent 65%
+    );
+
+    right:-250px;
+
+    top:-200px;
+
+    z-index:-2;
+}
+
+.hero-content{
+
+    width:100%;
+
+    max-width:1450px;
+
+    margin:auto;
+
+    padding:
+    170px 7%
+    100px;
+}
+
+.hero-copy{
+
+    max-width:780px;
+
+    margin-right:auto;
+
+    animation:
+    heroIn 1.1s var(--ease) both;
+}
+
+@keyframes heroIn{
+
+    from{
+        opacity:0;
+        transform:translateY(35px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.availability{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:
+    9px 15px;
+
+    border-radius:100px;
+
+    border:
+    1px solid rgba(216,181,106,.28);
+
+    background:
+    rgba(216,181,106,.055);
+
+    color:var(--gold2);
+
+    font-size:10px;
+
+    letter-spacing:1.2px;
+
+    margin-bottom:25px;
+}
+
+.availability-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#5ee879;
+
+    box-shadow:
+    0 0 13px #5ee879;
+
+    animation:
+    pulse 1.8s infinite;
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        opacity:1;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:.45;
+        transform:scale(.65);
+    }
+}
+
+.hero-title{
+
+    font-size:
+    clamp(54px,8vw,112px);
+
+    line-height:.98;
+
+    font-weight:1000;
+
+    letter-spacing:-6px;
+
+    margin-bottom:30px;
+}
+
+.hero-title .line{
+
+    display:block;
+}
+
+.gold-text{
+
+    background:
+    linear-gradient(
+        100deg,
+        #fff,
+        var(--gold2),
+        #aa7932
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.outline-text{
+
+    color:transparent;
+
+    -webkit-text-stroke:
+    1px rgba(255,255,255,.42);
+}
+
+.hero-sub{
+
+    color:#aaa;
+
+    max-width:670px;
+
+    line-height:2.15;
+
+    font-size:15px;
+
+    margin-bottom:32px;
+}
+
+.hero-sub strong{
+    color:#fff;
+}
+
+.hero-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:
+    15px 25px;
+
+    border-radius:100px;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    transition:.35s var(--ease);
+}
+
+.button-primary{
+
+    color:#080808;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--gold2),
+        #a97932
+    );
+
+    box-shadow:
+    0 15px 45px
+    rgba(216,181,106,.12);
+}
+
+.button-secondary{
+
+    border:
+    1px solid rgba(255,255,255,.14);
+
+    background:
+    rgba(255,255,255,.035);
+
+    color:#fff;
+
+    backdrop-filter:blur(10px);
+}
+
+.button:hover{
+
+    transform:
+    translateY(-4px);
+}
+
+.hero-meta{
+
+    margin-top:55px;
+
+    display:flex;
+
+    gap:30px;
+
+    flex-wrap:wrap;
+}
+
+.meta{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+}
+
+.meta small{
+
+    color:#555;
+
+    font-size:9px;
+
+    letter-spacing:1px;
+}
+
+.meta strong{
+
+    color:#ddd;
+
+    font-size:12px;
+
+    direction:ltr;
+}
+
+
+/* =========================================================
+   SCROLL INDICATOR
+========================================================= */
+
+.scroll-indicator{
+
+    position:absolute;
+
+    bottom:35px;
+
+    left:50%;
+
+    transform:
+    translateX(-50%);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#555;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+}
+
+.scroll-line{
+
+    width:1px;
+
+    height:45px;
+
+    background:
+    linear-gradient(
+        to bottom,
+        var(--gold),
+        transparent
+    );
+
+    animation:
+    scrollLine 1.7s infinite;
+}
+
+@keyframes scrollLine{
+
+    0%{
+        transform:scaleY(0);
+        transform-origin:top;
+    }
+
+    50%{
+        transform:scaleY(1);
+        transform-origin:top;
+    }
+
+    51%{
+        transform-origin:bottom;
+    }
+
+    100%{
+        transform:scaleY(0);
+        transform-origin:bottom;
+    }
+}
+
+
+/* =========================================================
+   SECTION SYSTEM
+========================================================= */
+
+.section{
+
+    position:relative;
+
+    padding:
+    130px 6%;
+}
+
+.container{
+
+    width:100%;
+
+    max-width:1250px;
+
+    margin:auto;
+}
+
+.section-head{
+
+    margin-bottom:65px;
+}
+
+.eyebrow{
+
+    color:var(--gold);
+
+    font-size:10px;
+
+    letter-spacing:3px;
+
+    margin-bottom:14px;
+}
+
+.section-title{
+
+    font-size:
+    clamp(34px,5vw,64px);
+
+    font-weight:1000;
+
+    letter-spacing:-3px;
+
+    line-height:1.1;
+}
+
+.section-description{
+
+    max-width:650px;
+
+    color:#777;
+
+    line-height:2;
+
+    font-size:13px;
+
+    margin-top:18px;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-section{
+
+    background:
+    radial-gradient(
+        circle at 10% 50%,
+        rgba(216,181,106,.055),
+        transparent 30%
+    );
+}
+
+.about-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    .9fr 1.1fr;
+
+    gap:80px;
+
+    align-items:center;
+}
+
+.about-visual{
+
+    min-height:530px;
+
+    position:relative;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:35px;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        145deg,
+        #121212,
+        #060606
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.about-ring{
+
+    position:absolute;
+
+    width:380px;
+
+    height:380px;
+
+    border-radius:50%;
+
+    border:
+    1px solid rgba(216,181,106,.2);
+
+    box-shadow:
+    0 0 100px
+    rgba(216,181,106,.05);
+}
+
+.about-ring::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:35px;
+
+    border:
+    1px solid rgba(216,181,106,.12);
+
+    border-radius:50%;
+}
+
+.about-monogram{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:120px;
+
+    font-weight:1000;
+
+    letter-spacing:-15px;
+
+    direction:ltr;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff,
+        var(--gold),
+        #8b6226
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.about-tag{
+
+    position:absolute;
+
+    bottom:25px;
+
+    left:25px;
+
+    right:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:15px 18px;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.035);
+
+    backdrop-filter:blur(15px);
+}
+
+.about-tag span{
+
+    color:#777;
+
+    font-size:10px;
+}
+
+.about-tag strong{
+
+    color:var(--gold);
+
+    font-size:11px;
+
+    direction:ltr;
+}
+
+.about-copy h3{
+
+    font-size:
+    clamp(30px,4vw,50px);
+
+    line-height:1.35;
+
+    margin-bottom:25px;
+}
+
+.about-copy h3 span{
+
+    color:var(--gold);
+}
+
+.about-copy p{
+
+    color:#888;
+
+    line-height:2.35;
+
+    font-size:14px;
+
+    margin-bottom:16px;
+}
+
+.about-pills{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:9px;
+
+    margin-top:28px;
+}
+
+.pill{
+
+    padding:
+    10px 14px;
+
+    border:
+    1px solid #222;
+
+    background:#0c0c0c;
+
+    border-radius:12px;
+
+    color:#999;
+
+    font-size:10px;
+}
+
+.pill b{
+
+    color:var(--gold);
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    border-top:
+    1px solid var(--line);
+
+    border-bottom:
+    1px solid var(--line);
+
+    margin-top:80px;
+}
+
+.stat{
+
+    padding:
+    35px 25px;
+
+    text-align:center;
+
+    border-left:
+    1px solid var(--line);
+}
+
+.stat:last-child{
+    border-left:0;
+}
+
+.stat-number{
+
+    font-size:42px;
+
+    font-weight:1000;
+
+    color:var(--gold);
+
+    direction:ltr;
+}
+
+.stat-label{
+
+    color:#666;
+
+    font-size:10px;
+
+    margin-top:6px;
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:18px;
+}
+
+.service-card{
+
+    min-height:300px;
+
+    padding:30px;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:28px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.045),
+        rgba(255,255,255,.012)
+    );
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+    transform .5s var(--ease),
+    border .4s;
+}
+
+.service-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    background:
+    rgba(216,181,106,.06);
+
+    filter:blur(50px);
+
+    top:-100px;
+
+    right:-70px;
+}
+
+.service-card:hover{
+
+    transform:
+    translateY(-10px);
+
+    border-color:
+    rgba(216,181,106,.28);
+}
+
+.service-number{
+
+    position:absolute;
+
+    left:20px;
+
+    top:15px;
+
+    color:#222;
+
+    font-size:45px;
+
+    font-weight:1000;
+
+    direction:ltr;
+}
+
+.service-icon{
+
+    width:55px;
+    height:55px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    background:
+    rgba(216,181,106,.08);
+
+    border:
+    1px solid
+    rgba(216,181,106,.12);
+
+    color:var(--gold);
+
+    font-size:23px;
+
+    margin-bottom:35px;
+}
+
+.service-card h3{
+
+    font-size:20px;
+
+    margin-bottom:14px;
+}
+
+.service-card p{
+
+    color:#727272;
+
+    font-size:12px;
+
+    line-height:2.1;
+}
+
+.service-arrow{
+
+    position:absolute;
+
+    bottom:25px;
+
+    left:30px;
+
+    color:var(--gold);
+
+    font-size:18px;
+}
+
+
+/* =========================================================
+   AI SECTION
+========================================================= */
+
+.ai-section{
+
+    overflow:hidden;
+
+    background:
+    radial-gradient(
+        ellipse at center,
+        rgba(216,181,106,.08),
+        transparent 60%
+    );
+}
+
+.ai-box{
+
+    position:relative;
+
+    min-height:500px;
+
+    border:
+    1px solid
+    rgba(216,181,106,.2);
+
+    border-radius:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.04),
+        rgba(255,255,255,.01)
+    );
+}
+
+.ai-core{
+
+    position:absolute;
+
+    width:500px;
+
+    height:500px;
+
+    border-radius:50%;
+
+    border:
+    1px solid
+    rgba(216,181,106,.12);
+
+    box-shadow:
+    0 0 100px
+    rgba(216,181,106,.05);
+
+    animation:
+    rotate 20s linear infinite;
+}
+
+.ai-core::before,
+.ai-core::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:55px;
+
+    border:
+    1px dashed
+    rgba(216,181,106,.12);
+
+    border-radius:50%;
+}
+
+.ai-core::after{
+
+    inset:110px;
+
+    border-style:solid;
+
+    border-color:
+    rgba(216,181,106,.16)
+    transparent
+    rgba(216,181,106,.16)
+    transparent;
+}
+
+@keyframes rotate{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.ai-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:700px;
+
+    padding:50px;
+}
+
+.ai-small{
+
+    color:var(--gold);
+
+    letter-spacing:5px;
+
+    font-size:9px;
+}
+
+.ai-title{
+
+    font-size:
+    clamp(42px,7vw,82px);
+
+    font-weight:1000;
+
+    letter-spacing:-5px;
+
+    margin:18px 0;
+
+    line-height:1;
+}
+
+.ai-title span{
+
+    background:
+    linear-gradient(
+        100deg,
+        #fff,
+        var(--gold2),
+        #9e712f
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.ai-content p{
+
+    color:#777;
+
+    font-size:13px;
+
+    line-height:2.3;
+
+    margin:auto;
+
+    max-width:600px;
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skills-layout{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:80px;
+
+    align-items:center;
+}
+
+.skill-intro h3{
+
+    font-size:
+    clamp(30px,4vw,48px);
+
+    line-height:1.35;
+
+    margin-bottom:20px;
+}
+
+.skill-intro h3 span{
+
+    color:var(--gold);
+}
+
+.skill-intro p{
+
+    color:#777;
+
+    line-height:2.2;
+
+    font-size:13px;
+}
+
+.skill-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+}
+
+.skill-row{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:9px;
+}
+
+.skill-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:11px;
+
+    color:#aaa;
+}
+
+.skill-top span:last-child{
+
+    color:var(--gold);
+
+    direction:ltr;
+}
+
+.skill-bar{
+
+    height:5px;
+
+    border-radius:10px;
+
+    background:#151515;
+
+    overflow:hidden;
+}
+
+.skill-fill{
+
+    height:100%;
+
+    width:0;
+
+    border-radius:10px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #8f682d,
+        var(--gold2)
+    );
+
+    transition:
+    width 1.5s
+    cubic-bezier(.16,1,.3,1);
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline{
+
+    position:relative;
+
+    max-width:950px;
+
+    margin:auto;
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    right:50%;
+
+    top:0;
+
+    bottom:0;
+
+    width:1px;
+
+    background:
+    linear-gradient(
+        to bottom,
+        transparent,
+        #333,
+        transparent
+    );
+}
+
+.timeline-item{
+
+    width:50%;
+
+    padding:25px 40px;
+
+    position:relative;
+}
+
+.timeline-item:nth-child(odd){
+
+    margin-left:50%;
+
+    text-align:right;
+}
+
+.timeline-item:nth-child(even){
+
+    text-align:left;
+}
+
+.timeline-dot{
+
+    position:absolute;
+
+    top:38px;
+
+    width:11px;
+
+    height:11px;
+
+    border-radius:50%;
+
+    background:var(--gold);
+
+    box-shadow:
+    0 0 20px
+    rgba(216,181,106,.45);
+}
+
+.timeline-item:nth-child(odd)
+.timeline-dot{
+
+    right:-6px;
+}
+
+.timeline-item:nth-child(even)
+.timeline-dot{
+
+    left:-5px;
+}
+
+.timeline-card{
+
+    padding:25px;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:20px;
+
+    background:#0b0b0b;
+}
+
+.timeline-year{
+
+    color:var(--gold);
+
+    font-size:10px;
+
+    letter-spacing:2px;
+
+    margin-bottom:9px;
+}
+
+.timeline-card h3{
+
+    font-size:17px;
+
+    margin-bottom:8px;
+}
+
+.timeline-card p{
+
+    color:#666;
+
+    font-size:11px;
+
+    line-height:2;
+}
+
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.project-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:20px;
+}
+
+.project{
+
+    min-height:340px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #111,
+        #070707
+    );
+
+    padding:35px;
+
+    transition:.5s var(--ease);
+}
+
+.project:hover{
+
+    transform:
+    scale(1.015);
+
+    border-color:
+    rgba(216,181,106,.3);
+}
+
+.project-bg{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.4;
+
+    background:
+    radial-gradient(
+        circle at 80% 20%,
+        rgba(216,181,106,.15),
+        transparent 35%
+    );
+}
+
+.project-number{
+
+    position:absolute;
+
+    left:25px;
+
+    top:18px;
+
+    color:#252525;
+
+    font-size:65px;
+
+    font-weight:1000;
+
+    direction:ltr;
+}
+
+.project-content{
+
+    position:absolute;
+
+    bottom:30px;
+
+    right:35px;
+
+    left:35px;
+
+    z-index:2;
+}
+
+.project-tag{
+
+    display:inline-block;
+
+    color:var(--gold);
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    margin-bottom:10px;
+}
+
+.project h3{
+
+    font-size:25px;
+
+    margin-bottom:9px;
+}
+
+.project p{
+
+    color:#6e6e6e;
+
+    font-size:11px;
+
+    line-height:2;
+}
+
+
+/* =========================================================
+   SOCIAL
+========================================================= */
+
+.social-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:16px;
+}
+
+.social-card{
+
+    padding:30px;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:25px;
+
+    background:
+    rgba(255,255,255,.025);
+
+    transition:.4s;
+}
+
+.social-card:hover{
+
+    transform:
+    translateY(-7px);
+
+    border-color:
+    rgba(216,181,106,.3);
+}
+
+.social-icon{
+
+    font-size:25px;
+
+    margin-bottom:25px;
+}
+
+.social-label{
+
+    color:#555;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    margin-bottom:8px;
+}
+
+.social-name{
+
+    font-size:14px;
+
+    direction:ltr;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-section{
+
+    padding-bottom:160px;
+}
+
+.contact-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:40px;
+
+    padding:
+    90px 50px;
+
+    text-align:center;
+
+    border:
+    1px solid
+    rgba(216,181,106,.2);
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(216,181,106,.1),
+        transparent 55%
+    ),
+    #090909;
+}
+
+.contact-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    border-radius:50%;
+
+    border:
+    1px solid
+    rgba(216,181,106,.07);
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+    translate(-50%,-50%);
+}
+
+.contact-box > *{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.contact-box small{
+
+    color:var(--gold);
+
+    letter-spacing:4px;
+
+    font-size:9px;
+}
+
+.contact-box h2{
+
+    font-size:
+    clamp(40px,7vw,82px);
+
+    letter-spacing:-5px;
+
+    margin:18px 0;
+
+    line-height:1;
+}
+
+.contact-box h2 span{
+
+    color:var(--gold);
+}
+
+.contact-box p{
+
+    color:#666;
+
+    max-width:550px;
+
+    margin:
+    0 auto 30px;
+
+    font-size:12px;
+
+    line-height:2;
+}
+
+.contact-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:30px;
+}
+
+.contact-link{
+
+    padding:
+    12px 18px;
+
+    border:
+    1px solid #222;
+
+    background:#0d0d0d;
+
+    border-radius:100px;
+
+    font-size:10px;
+
+    color:#aaa;
+
+    direction:ltr;
+
+    transition:.3s;
+}
+
+.contact-link:hover{
+
+    color:var(--gold);
+
+    border-color:
+    rgba(216,181,106,.3);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    padding:
+    35px 6%;
+
+    border-top:
+    1px solid var(--line);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    color:#444;
+
+    font-size:10px;
+}
+
+.footer-brand{
+
+    color:#777;
+
+    direction:ltr;
+}
+
+.footer-brand span{
+
+    color:var(--gold);
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+    translateY(35px);
+
+    transition:
+    opacity .9s var(--ease),
+    transform .9s var(--ease);
+}
+
+.reveal.show{
+
+    opacity:1;
+
+    transform:
+    translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:flex;
+    }
+
+    .nav-cta{
+        display:none;
+    }
+
+    .about-grid,
+    .skills-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .about-visual{
+
+        min-height:400px;
+
+    }
+
+    .service-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+    .social-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .nav{
+
+        top:10px;
+
+        left:3%;
+
+        right:3%;
+
+        height:62px;
+
+    }
+
+    .brand-name{
+
+        font-size:15px;
+
+    }
+
+    .hero{
+
+        min-height:900px;
+
+    }
+
+    .hero-image{
+
+        background-position:
+        62% center;
+
+    }
+
+    .hero-content{
+
+        padding:
+        170px 7% 100px;
+
+        text-align:center;
+
+    }
+
+    .hero-copy{
+
+        margin:auto;
+
+    }
+
+    .hero-title{
+
+        font-size:
+        clamp(45px,14vw,70px);
+
+        letter-spacing:-3px;
+
+    }
+
+    .hero-sub{
+
+        font-size:13px;
+
+        margin-left:auto;
+
+        margin-right:auto;
+
+    }
+
+    .hero-actions{
+
+        justify-content:center;
+
+    }
+
+    .hero-meta{
+
+        justify-content:center;
+
+        gap:20px;
+
+    }
+
+    .scroll-indicator{
+
+        display:none;
+
+    }
+
+    .section{
+
+        padding:
+        90px 6%;
+
+    }
+
+    .section-title{
+
+        letter-spacing:-2px;
+
+    }
+
+    .service-grid,
+    .social-grid,
+    .project-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .stats{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+    .stat{
+
+        border-bottom:
+        1px solid var(--line);
+
+    }
+
+    .stat:nth-child(2){
+
+        border-left:0;
+
+    }
+
+    .timeline::before{
+
+        right:8px;
+
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(odd){
+
+        width:100%;
+
+        margin:0;
+
+        padding:
+        20px 35px 20px 0;
+
+        text-align:right;
+
+    }
+
+    .timeline-item:nth-child(even){
+
+        text-align:right;
+
+    }
+
+    .timeline-dot,
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot{
+
+        right:3px;
+
+        left:auto;
+
+    }
+
+    .contact-box{
+
+        padding:
+        70px 20px;
+
+    }
+
+    .contact-box h2{
+
+        letter-spacing:-3px;
+
+    }
+
+    footer{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+}
+
+@media(max-width:450px){
+
+    .about-monogram{
+
+        font-size:80px;
+
+    }
+
+    .about-ring{
+
+        width:280px;
+
+        height:280px;
+
+    }
+
+    .service-card{
+
+        min-height:270px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-panel{
+
+    position:fixed;
+
+    inset:
+    80px 15px auto 15px;
+
+    z-index:4000;
+
+    padding:20px;
+
+    border:
+    1px solid var(--line);
+
+    border-radius:25px;
+
+    background:
+    rgba(8,8,8,.94);
+
+    backdrop-filter:blur(25px);
+
+    transform:
+    translateY(-20px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.35s var(--ease);
+}
+
+.mobile-panel.open{
+
+    transform:
+    translateY(0);
+
+    opacity:1;
+
+    pointer-events:auto;
+}
+
+.mobile-panel a{
+
+    display:block;
+
+    padding:15px;
+
+    border-bottom:
+    1px solid #171717;
+
+    color:#aaa;
+
+    font-size:13px;
+}
+
+.mobile-panel a:last-child{
+
+    border-bottom:0;
+}
+
+
+/* =========================================================
+   EXTRA EFFECT
+========================================================= */
+
+.glow-border{
+
+    position:relative;
+}
+
+.glow-border::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    pointer-events:none;
+
+    background:
+    linear-gradient(
+        120deg,
+        transparent,
+        rgba(216,181,106,.15),
+        transparent
+    );
+
+    opacity:0;
+
+    transition:.5s;
+}
+
+.glow-border:hover::after{
+
+    opacity:1;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        scroll-behavior:auto !important;
+
+        transition-duration:.01ms !important;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================================
+     LOADER
+========================================================= -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-logo">
+
+        <span>Armin</span>Ghanbari
+
+    </div>
+
+    <div class="loader-line"></div>
+
+</div>
+
+
+<!-- ========================================================
+     EFFECTS
+========================================================= -->
+
+<div class="noise"></div>
+
+<div class="grid-bg"></div>
+
+<div
+    class="cursor-glow"
+    id="cursorGlow">
+</div>
+
+<canvas id="particles"></canvas>
+
+
+<!-- ========================================================
+     NAVIGATION
+========================================================= -->
+
+<header class="nav" id="navbar">
+
+    <a
+        href="#home"
+        class="brand">
+
+        <div class="brand-mark">
+            AG
+        </div>
+
+        <div class="brand-name">
+            <span>Armin</span>Ghanbari
+        </div>
+
+    </a>
+
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">
+                خانه
+            </a>
+        </li>
+
+        <li>
+            <a href="#about">
+                درباره من
+            </a>
+        </li>
+
+        <li>
+            <a href="#skills">
+                مهارت‌ها
+            </a>
+        </li>
+
+        <li>
+            <a href="#journey">
+                مسیر من
+            </a>
+        </li>
+
+        <li>
+            <a href="#projects">
+                پروژه‌ها
+            </a>
+        </li>
+
+        <li>
+            <a href="#contact">
+                ارتباط
+            </a>
+        </li>
+
+    </ul>
+
+
+    <a
+        href="tel:09031535072"
+        class="nav-cta">
+
+        ارتباط با من
+
+    </a>
+
+
+    <div
+        class="mobile-menu"
+        id="mobileButton">
+
+        ☰
+
+    </div>
+
+</header>
+
+
+<!-- MOBILE PANEL -->
+
+<div
+    class="mobile-panel"
+    id="mobilePanel">
+
+    <a href="#home">
+        خانه
+    </a>
+
+    <a href="#about">
+        درباره من
+    </a>
+
+    <a href="#skills">
+        مهارت‌ها
+    </a>
+
+    <a href="#journey">
+        مسیر من
+    </a>
+
+    <a href="#projects">
+        پروژه‌ها
+    </a>
+
+    <a href="#contact">
+        ارتباط
+    </a>
+
+</div>
+
+
+<!-- ========================================================
+     HERO
+========================================================= -->
+
+<section
+    class="hero"
+    id="home">
+
+
+    <div class="hero-image"></div>
+
+    <div class="hero-light"></div>
+
+
+    <div class="hero-content">
+
+        <div class="hero-copy">
+
+
+            <div class="availability">
+
+                <span
+                    class="availability-dot">
+                </span>
+
+                AVAILABLE FOR NEW IDEAS
+
+            </div>
+
+
+            <h1 class="hero-title">
+
+                <span class="line">
+                    I'm
+                    <span class="gold-text">
+                        Armin
+                    </span>
+                </span>
+
+                <span class="line outline-text">
+                    Ghanbari.
+                </span>
+
+            </h1>
+
+
+            <p class="hero-sub">
+
+                دانشجوی
+                <strong>
+                    مهندسی کامپیوتر دانشگاه صنعتی امیرکبیر
+                </strong>
+
+                ، علاقه‌مند به
+                <strong>
+                    هوش مصنوعی، تکنولوژی
+                </strong>
+
+                و ساختن ایده‌هایی که
+                قرار است به چیزی بزرگ‌تر تبدیل شوند.
+
+            </p>
+
+
+            <div class="hero-actions">
+
+                <a
+                    href="#about"
+                    class="button button-primary">
+
+                    کشف بیشتر
+
+                    <span>
+                        ↓
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="tel:09031535072"
+                    class="button button-secondary">
+
+                    <span>
+                        ◉
+                    </span>
+
+                    تماس مستقیم
+
+                </a>
+
+            </div>
+
+
+            <div class="hero-meta">
+
+                <div class="meta">
+
+                    <small>
+                        STUDY
+                    </small>
+
+                    <strong>
+                        COMPUTER ENGINEERING
+                    </strong>
+
+                </div>
+
+
+                <div class="meta">
+
+                    <small>
+                        UNIVERSITY
+                    </small>
+
+                    <strong>
+                        AMIRKABIR
+                    </strong>
+
+                </div>
+
+
+                <div class="meta">
+
+                    <small>
+                        FOCUS
+                    </small>
+
+                    <strong>
+                        AI / TECH
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="scroll-indicator">
+
+        SCROLL
+
+        <span class="scroll-line"></span>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     ABOUT
+========================================================= -->
+
+<section
+    class="section about-section"
+    id="about">
+
+    <div class="container">
+
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">
+                01 — ABOUT
+            </div>
+
+            <h2 class="section-title">
+                پشت نام
+                <span class="gold-text">
+                    ArminGhanbari
+                </span>
+                چه می‌گذرد؟
+            </h2>
+
+        </div>
+
+
+        <div class="about-grid">
+
+
+            <div class="about-visual glow-border reveal">
+
+                <div class="about-ring"></div>
+
+                <div class="about-monogram">
+                    AG
+                </div>
+
+
+                <div class="about-tag">
+
+                    <span>
+                        DIGITAL IDENTITY
+                    </span>
+
+                    <strong>
+                        ARMIN GHANBARI
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-copy reveal">
+
+                <h3>
+
+                    یادگیری.
+
+                    <span>
+                        ساختن.
+                    </span>
+
+                    آینده.
+
+                </h3>
+
+
+                <p>
+
+                    من آرمین قنبری هستم؛
+                    دانشجوی مهندسی کامپیوتر دانشگاه صنعتی امیرکبیر.
+                    دنیای تکنولوژی برای من فقط یک رشته دانشگاهی نیست؛
+                    یک مسیر برای ساختن چیزهای جدید است.
+
+                </p>
+
+
+                <p>
+
+                    به هوش مصنوعی، برنامه‌نویسی،
+                    تکنولوژی‌های نوظهور و رشد مداوم علاقه دارم
+                    و تلاش می‌کنم هر چیزی که یاد می‌گیرم
+                    به یک تجربه یا پروژه واقعی تبدیل کنم.
+
+                </p>
+
+
+                <div class="about-pills">
+
+                    <div class="pill">
+                        🎓
+                        <b>
+                            Computer Engineering
+                        </b>
+                    </div>
+
+                    <div class="pill">
+                        🏛️
+                        <b>
+                            Amirkabir University
+                        </b>
+                    </div>
+
+                    <div class="pill">
+                        🤖
+                        <b>
+                            Artificial Intelligence
+                        </b>
+                    </div>
+
+                    <div class="pill">
+                        ⚡
+                        <b>
+                            Technology
+                        </b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats reveal">
+
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    data-target="100">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    LEARNING MINDSET
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    data-target="24">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    HOURS / DAY
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    data-target="∞">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    IDEAS
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    data-target="AI">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    FUTURE FOCUS
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     SERVICES / INTERESTS
+========================================================= -->
+
+<section
+    class="section"
+    id="skills">
+
+    <div class="container">
+
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">
+                02 — INTERESTS
+            </div>
+
+            <h2 class="section-title">
+                چیزهایی که
+                <span class="gold-text">
+                    می‌سازم
+                </span>
+                و دنبال می‌کنم.
+            </h2>
+
+            <p class="section-description">
+
+                ترکیبی از مهندسی، تکنولوژی،
+                هوش مصنوعی و ذهنیت رشد.
+
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    01
+                </div>
+
+                <div class="service-icon">
+                    &lt;/&gt;
+                </div>
+
+                <h3>
+                    Computer Science
+                </h3>
+
+                <p>
+
+                    حل مسئله، الگوریتم،
+                    برنامه‌نویسی و ساخت
+                    سیستم‌های نرم‌افزاری.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    02
+                </div>
+
+                <div class="service-icon">
+                    AI
+                </div>
+
+                <h3>
+                    Artificial Intelligence
+                </h3>
+
+                <p>
+
+                    کشف ابزارها و تکنولوژی‌های
+                    هوش مصنوعی و بررسی اینکه
+                    چطور می‌توانند آینده را تغییر دهند.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    03
+                </div>
+
+                <div class="service-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    Creative Technology
+                </h3>
+
+                <p>
+
+                    ترکیب طراحی، کدنویسی،
+                    ایده‌های خلاقانه و
+                    تجربه‌های دیجیتال.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    04
+                </div>
+
+                <div class="service-icon">
+                    ↗
+                </div>
+
+                <h3>
+                    Growth
+                </h3>
+
+                <p>
+
+                    یادگیری مداوم، ساخت عادت‌های
+                    بهتر و حرکت هر روزه به سمت
+                    نسخه بهتر خودم.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    05
+                </div>
+
+                <div class="service-icon">
+                    ◇
+                </div>
+
+                <h3>
+                    Future Ideas
+                </h3>
+
+                <p>
+
+                    دنبال کردن ایده‌هایی که
+                    امروز شاید کوچک باشند،
+                    اما فردا می‌توانند بزرگ شوند.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="service-card glow-border reveal">
+
+                <div class="service-number">
+                    06
+                </div>
+
+                <div class="service-icon">
+                    ∞
+                </div>
+
+                <h3>
+                    Never Stop Learning
+                </h3>
+
+                <p>
+
+                    تکنولوژی متوقف نمی‌شود؛
+                    بنابراین یادگیری هم
+                    قرار نیست متوقف شود.
+
+                </p>
+
+                <div class="service-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     AI
+========================================================= -->
+
+<section
+    class="section ai-section">
+
+    <div class="container">
+
+
+        <div class="ai-box reveal">
+
+
+            <div class="ai-core"></div>
+
+
+            <div class="ai-content">
+
+                <div class="ai-small">
+                    ARTIFICIAL INTELLIGENCE
+                </div>
+
+
+                <h2 class="ai-title">
+
+                    THE FUTURE
+                    <br>
+
+                    IS
+                    <span>
+                        INTELLIGENT.
+                    </span>
+
+                </h2>
+
+
+                <p>
+
+                    هوش مصنوعی برای من فقط یک تکنولوژی نیست؛
+                    یک ابزار برای فکر کردن، ساختن،
+                    حل مسئله و کشف فرصت‌هایی است که هنوز
+                    خیلی از آن‌ها را نمی‌شناسیم.
+
+                </p>
+
+
+                <br><br>
+
+
+                <a
+                    href="#contact"
+                    class="button button-primary">
+
+                    Let's build the future
+
+                    →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     SKILLS
+========================================================= -->
+
+<section
+    class="section">
+
+    <div class="container">
+
+
+        <div class="skills-layout">
+
+
+            <div class="skill-intro reveal">
+
+                <div class="eyebrow">
+                    03 — SKILLS
+                </div>
+
+                <h3>
+
+                    همیشه
+                    <span>
+                        بهتر
+                    </span>
+                    از دیروز.
+
+                </h3>
+
+                <p>
+
+                    این درصدها معیار ارزش من نیستند؛
+                    فقط یک تصویر از مسیر یادگیری فعلی من‌اند.
+                    هدف همیشه رشد بیشتر است.
+
+                </p>
+
+            </div>
+
+
+            <div class="skill-list reveal">
+
+
+                <div class="skill-row">
+
+                    <div class="skill-top">
+
+                        <span>
+                            Problem Solving
+                        </span>
+
+                        <span>
+                            88%
+                        </span>
+
+                    </div>
+
+                    <div class="skill-bar">
+
+                        <div
+                            class="skill-fill"
+                            data-width="88%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="skill-row">
+
+                    <div class="skill-top">
+
+                        <span>
+                            Programming
+                        </span>
+
+                        <span>
+                            82%
+                        </span>
+
+                    </div>
+
+                    <div class="skill-bar">
+
+                        <div
+                            class="skill-fill"
+                            data-width="82%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="skill-row">
+
+                    <div class="skill-top">
+
+                        <span>
+                            AI & Technology
+                        </span>
+
+                        <span>
+                            78%
+                        </span>
+
+                    </div>
+
+                    <div class="skill-bar">
+
+                        <div
+                            class="skill-fill"
+                            data-width="78%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="skill-row">
+
+                    <div class="skill-top">
+
+                        <span>
+                            Creativity
+                        </span>
+
+                        <span>
+                            91%
+                        </span>
+
+                    </div>
+
+                    <div class="skill-bar">
+
+                        <div
+                            class="skill-fill"
+                            data-width="91%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="skill-row">
+
+                    <div class="skill-top">
+
+                        <span>
+                            Learning
+                        </span>
+
+                        <span>
+                            100%
+                        </span>
+
+                    </div>
+
+                    <div class="skill-bar">
+
+                        <div
+                            class="skill-fill"
+                            data-width="100%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     JOURNEY
+========================================================= -->
+
+<section
+    class="section"
+    id="journey">
+
+    <div class="container">
+
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">
+                04 — JOURNEY
+            </div>
+
+            <h2 class="section-title">
+                مسیر
+                <span class="gold-text">
+                    من.
+                </span>
+            </h2>
+
+        </div>
+
+
+        <div class="timeline">
+
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <div class="timeline-year">
+                        EDUCATION
+                    </div>
+
+                    <h3>
+                        مهندسی کامپیوتر
+                    </h3>
+
+                    <p>
+
+                        شروع مسیر دانشگاهی
+                        در رشته مهندسی کامپیوتر
+                        دانشگاه صنعتی امیرکبیر.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <div class="timeline-year">
+                        NOW
+                    </div>
+
+                    <h3>
+                        Exploring Technology
+                    </h3>
+
+                    <p>
+
+                        یادگیری، تجربه کردن و
+                        ساخت پروژه‌های مختلف
+                        در دنیای تکنولوژی.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <div class="timeline-year">
+                        NEXT
+                    </div>
+
+                    <h3>
+                        Artificial Intelligence
+                    </h3>
+
+                    <p>
+
+                        عمیق‌تر شدن در دنیای
+                        هوش مصنوعی و ساخت
+                        محصولات هوشمند.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <div class="timeline-year">
+                        FUTURE
+                    </div>
+
+                    <h3>
+                        Build Something Big
+                    </h3>
+
+                    <p>
+
+                        تبدیل ایده‌ها به پروژه‌ها،
+                        محصولات و تجربه‌هایی
+                        که ارزش واقعی ایجاد کنند.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     PROJECTS
+========================================================= -->
+
+<section
+    class="section"
+    id="projects">
+
+    <div class="container">
+
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">
+                05 — PROJECTS
+            </div>
+
+            <h2 class="section-title">
+                ایده‌ها را
+                <span class="gold-text">
+                    واقعی
+                </span>
+                می‌کنیم.
+            </h2>
+
+        </div>
+
+
+        <div class="project-grid">
+
+
+            <div class="project reveal">
+
+                <div class="project-bg"></div>
+
+                <div class="project-number">
+                    01
+                </div>
+
+                <div class="project-content">
+
+                    <div class="project-tag">
+                        AI / FUTURE
+                    </div>
+
+                    <h3>
+                        AI Lab
+                    </h3>
+
+                    <p>
+
+                        فضای شخصی برای تجربه،
+                        آزمایش و ساخت ایده‌های
+                        مبتنی بر هوش مصنوعی.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="project reveal">
+
+                <div class="project-bg"></div>
+
+                <div class="project-number">
+                    02
+                </div>
+
+                <div class="project-content">
+
+                    <div class="project-tag">
+                        WEB / DESIGN
+                    </div>
+
+                    <h3>
+                        Digital Identity
+                    </h3>
+
+                    <p>
+
+                        ساخت تجربه‌های دیجیتال
+                        مدرن برای برندهای شخصی
+                        و پروژه‌های تکنولوژی.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="project reveal">
+
+                <div class="project-bg"></div>
+
+                <div class="project-number">
+                    03
+                </div>
+
+                <div class="project-content">
+
+                    <div class="project-tag">
+                        SOFTWARE
+                    </div>
+
+                    <h3>
+                        Future Tools
+                    </h3>
+
+                    <p>
+
+                        ایده‌هایی برای ابزارهایی
+                        که بتوانند کارها را
+                        ساده‌تر و هوشمندتر کنند.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="project reveal">
+
+                <div class="project-bg"></div>
+
+                <div class="project-number">
+                    04
+                </div>
+
+                <div class="project-content">
+
+                    <div class="project-tag">
+                        PERSONAL
+                    </div>
+
+                    <h3>
+                        ArminGhanbari
+                    </h3>
+
+                    <p>
+
+                        این سایت بخشی از هویت
+                        دیجیتال شخصی من است؛
+                        ساخته شده برای آینده.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     SOCIAL
+========================================================= -->
+
+<section
+    class="section">
+
+    <div class="container">
+
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">
+                06 — CONNECT
+            </div>
+
+            <h2 class="section-title">
+                Find me
+                <span class="gold-text">
+                    online.
+                </span>
+            </h2>
+
+        </div>
+
+
+        <div class="social-grid">
+
+
+            <a
+                href="https://t.me/Armin_Ghanbarii"
+                target="_blank"
+                class="social-card reveal">
+
+                <div class="social-icon">
+                    ✈
+                </div>
+
+                <div class="social-label">
+                    TELEGRAM
+                </div>
+
+                <div class="social-name">
+                    @Armin_Ghanbarii
+                </div>
+
+            </a>
+
+
+            <a
+                href="https://instagram.com/Armin_.Ghanbari"
+                target="_blank"
+                class="social-card reveal">
+
+                <div class="social-icon">
+                    ◎
+                </div>
+
+                <div class="social-label">
+                    INSTAGRAM
+                </div>
+
+                <div class="social-name">
+                    @Armin_.Ghanbari
+                </div>
+
+            </a>
+
+
+            <a
+                href="tel:09031535072"
+                class="social-card reveal">
+
+                <div class="social-icon">
+                    ☎
+                </div>
+
+                <div class="social-label">
+                    PHONE
+                </div>
+
+                <div class="social-name">
+                    09031535072
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     CONTACT
+========================================================= -->
+
+<section
+    class="section contact-section"
+    id="contact">
+
+    <div class="container">
+
+
+        <div class="contact-box reveal">
+
+            <small>
+                LET'S TALK
+            </small>
+
+
+            <h2>
+
+                What's
+                <span>
+                    next?
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                یک ایده، یک پروژه یا حتی
+                یک گفت‌وگوی ساده درباره تکنولوژی.
+                از همین‌جا شروع کنیم.
+
+            </p>
+
+
+            <a
+                href="tel:09031535072"
+                class="button button-primary">
+
+                تماس با من
+
+                →
+            </a>
+
+
+            <div class="contact-links">
+
+                <a
+                    href="tel:09031535072"
+                    class="contact-link">
+
+                    09031535072
+
+                </a>
+
+
+                <a
+                    href="https://t.me/Armin_Ghanbarii"
+                    target="_blank"
+                    class="contact-link">
+
+                    @Armin_Ghanbarii
+
+                </a>
+
+
+                <a
+                    href="https://instagram.com/Armin_.Ghanbari"
+                    target="_blank"
+                    class="contact-link">
+
+                    @Armin_.Ghanbari
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div>
+
+        © 2026
+
+        <span
+            style="color:#d8b56a">
+
+            ArminGhanbari
+
+        </span>
+
+        — All rights reserved.
+
+    </div>
+
+
+    <div class="footer-brand">
+
+        TECHNOLOGY
+        <span>•</span>
+        AI
+        <span>•</span>
+        FUTURE
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document
+        .getElementById("loader")
+        .classList.add("hide");
+
+    },700);
+
+});
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+const navbar =
+document.getElementById("navbar");
+
+window.addEventListener("scroll",()=>{
+
+    if(window.scrollY > 40){
+
+        navbar.classList.add("scrolled");
+
+    }else{
+
+        navbar.classList.remove("scrolled");
+
+    }
+
+});
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+const glow =
+document.getElementById("cursorGlow");
+
+window.addEventListener("mousemove",(e)=>{
+
+    glow.style.left =
+    e.clientX + "px";
+
+    glow.style.top =
+    e.clientY + "px";
+
+});
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+const canvas =
+document.getElementById("particles");
+
+const ctx =
+canvas.getContext("2d");
+
+let particles=[];
+
+function resizeCanvas(){
+
+    canvas.width =
+    window.innerWidth;
+
+    canvas.height =
+    window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+for(let i=0;i<65;i++){
+
+    particles.push({
+
+        x:
+        Math.random() *
+        window.innerWidth,
+
+        y:
+        Math.random() *
+        window.innerHeight,
+
+        size:
+        Math.random()*1.6+.3,
+
+        speed:
+        Math.random()*.25+.05,
+
+        opacity:
+        Math.random()*.5+.1
+
+    });
+
+}
+
+
+function animateParticles(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    particles.forEach(p=>{
+
+        p.y -= p.speed;
+
+        if(p.y < -10){
+
+            p.y =
+            canvas.height+10;
+
+            p.x =
+            Math.random() *
+            canvas.width;
+
+        }
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle =
+        `rgba(216,181,106,${p.opacity})`;
+
+        ctx.fill();
+
+    });
+
+    requestAnimationFrame(
+        animateParticles
+    );
+
+}
+
+animateParticles();
+
+
+/* =========================================================
+   REVEAL ON SCROLL
+========================================================= */
+
+const reveals =
+document.querySelectorAll(".reveal");
+
+const revealObserver =
+new IntersectionObserver(
+
+    entries=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                entry.target
+                .classList
+                .add("show");
+
+                revealObserver
+                .unobserve(
+                    entry.target
+                );
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.12
+    }
+
+);
+
+reveals.forEach(el=>{
+
+    revealObserver.observe(el);
+
+});
+
+
+/* =========================================================
+   SKILL BARS
+========================================================= */
+
+const skillBars =
+document.querySelectorAll(".skill-fill");
+
+const skillObserver =
+new IntersectionObserver(
+
+    entries=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                const width =
+                entry.target
+                .dataset
+                .width;
+
+                entry.target.style.width =
+                width;
+
+                skillObserver
+                .unobserve(
+                    entry.target
+                );
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.5
+    }
+
+);
+
+skillBars.forEach(bar=>{
+
+    skillObserver.observe(bar);
+
+});
+
+
+/* =========================================================
+   COUNTERS
+========================================================= */
+
+const counters =
+document.querySelectorAll(".stat-number");
+
+let counterStarted=false;
+
+const counterObserver =
+new IntersectionObserver(
+
+    entries=>{
+
+        if(
+            entries[0].isIntersecting &&
+            !counterStarted
+        ){
+
+            counterStarted=true;
+
+            counters.forEach(counter=>{
+
+                const target =
+                counter.dataset.target;
+
+                if(
+                    target === "∞" ||
+                    target === "AI"
+                ){
+
+                    counter.textContent =
+                    target;
+
+                    return;
+
+                }
+
+                let current=0;
+
+                const numericTarget =
+                Number(target);
+
+                const duration=1200;
+
+                const step =
+                numericTarget /
+                (duration/20);
+
+                const timer =
+                setInterval(()=>{
+
+                    current += step;
+
+                    if(
+                        current >=
+                        numericTarget
+                    ){
+
+                        current =
+                        numericTarget;
+
+                        clearInterval(timer);
+
+                    }
+
+                    counter.textContent =
+                    Math.floor(current);
+
+                },20);
+
+            });
+
+        }
+
+    },
+
+    {
+        threshold:.5
+    }
+
+);
+
+const stats =
+document.querySelector(".stats");
+
+if(stats){
+
+    counterObserver.observe(stats);
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const mobileButton =
+document.getElementById(
+    "mobileButton"
+);
+
+const mobilePanel =
+document.getElementById(
+    "mobilePanel"
+);
+
+mobileButton.addEventListener(
+    "click",
+    ()=>{
+
+        mobilePanel
+        .classList
+        .toggle("open");
+
+    }
+);
+
+
+document
+.querySelectorAll(".mobile-panel a")
+.forEach(link=>{
+
+    link.addEventListener(
+        "click",
+        ()=>{
+
+            mobilePanel
+            .classList
+            .remove("open");
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   PARALLAX HERO
+========================================================= */
+
+const heroImage =
+document.querySelector(
+    ".hero-image"
+);
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        const scroll =
+        window.scrollY;
+
+        if(scroll < window.innerHeight){
+
+            heroImage.style.transform =
+            `scale(1.03)
+             translateY(${scroll*.08}px)`;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   3D TILT ON CARDS
+========================================================= */
+
+document
+.querySelectorAll(
+    ".service-card,.project"
+)
+.forEach(card=>{
+
+    card.addEventListener(
+        "mousemove",
+        (e)=>{
+
+            const rect =
+            card.getBoundingClientRect();
+
+            const x =
+            e.clientX -
+            rect.left;
+
+            const y =
+            e.clientY -
+            rect.top;
+
+            const centerX =
+            rect.width/2;
+
+            const centerY =
+            rect.height/2;
+
+            const rotateX =
+            ((y-centerY) /
+            centerY)*-3;
+
+            const rotateY =
+            ((x-centerX) /
+            centerX)*3;
+
+            card.style.transform =
+            `perspective(800px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-7px)`;
+
+        }
+    );
+
+
+    card.addEventListener(
+        "mouseleave",
+        ()=>{
+
+            card.style.transform =
+            "";
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   ACTIVE NAV
+========================================================= */
+
+const sections =
+document.querySelectorAll(
+    "section[id]"
+);
+
+const navLinks =
+document.querySelectorAll(
+    ".nav-links a"
+);
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        let current="";
+
+        sections.forEach(section=>{
+
+            const top =
+            section.offsetTop - 200;
+
+            if(
+                window.scrollY >= top
+            ){
+
+                current =
+                section.id;
+
+            }
+
+        });
+
+        navLinks.forEach(link=>{
+
+            link.style.color =
+            "#929292";
+
+            if(
+                link.getAttribute("href")
+                ===
+                "#"+current
+            ){
+
+                link.style.color =
+                "#d8b56a";
+
+            }
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   MAGNETIC BUTTONS
+========================================================= */
+
+document
+.querySelectorAll(
+    ".button,.nav-cta"
+)
+.forEach(button=>{
+
+    button.addEventListener(
+        "mousemove",
+        (e)=>{
+
+            const rect =
+            button.getBoundingClientRect();
+
+            const x =
+            e.clientX -
+            rect.left -
+            rect.width/2;
+
+            const y =
+            e.clientY -
+            rect.top -
+            rect.height/2;
+
+            button.style.transform =
+            `translate(${x*.08}px,
+                       ${y*.08}px)`;
+
+        }
+    );
+
+    button.addEventListener(
+        "mouseleave",
+        ()=>{
+
+            button.style.transform =
+            "";
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   PREVENT IMAGE ERROR LOOK
+========================================================= */
+
+const hero =
+new Image();
+
+hero.src="hero.png";
+
+hero.onerror=()=>{
+
+    document
+    .querySelector(".hero-image")
+    .style.backgroundImage =
+    `
+    radial-gradient(
+        circle at 70% 40%,
+        rgba(216,181,106,.18),
+        transparent 35%
+    ),
+    linear-gradient(
+        135deg,
+        #121212,
+        #030303
+    )
+    `;
+
+};
+
+</script>
+
+</body>
+
+</html>
